@@ -27,6 +27,14 @@ module Dingtalk
       end
     end
 
+    def put(path, put_body, put_header = {})
+      request(path, put_header) do |url, header|
+        Dingtalk.logger.info "payload: #{put_body}"
+        params = header.delete(:params)
+        http.headers(header).put(url, params: params, json: put_body, ssl_context: ssl_context)
+      end
+    end
+
     def post_file(path, file, post_header={})
       request(path, post_header) do |url, header|
         params = header.delete(:params)
@@ -45,7 +53,7 @@ module Dingtalk
     private
 
     def request(path, header={}, &_block)
-      url = URI.join(API_BASE_URL, path)
+      url = URI.join(path.start_with?(%r{/v\d+\.\d+}) ? NEW_API_BASE_URL : API_BASE_URL, path)
       Dingtalk.logger.info "request url(#{url}) with headers: #{header}"
       as = header.delete(:as)
       header['Accept'] = 'application/json'

@@ -27,6 +27,12 @@ module Dingtalk
         end
       end
 
+      def put(path, payload = {}, headers = {})
+        with_token(headers) do |headers_with_token|
+          request.put path, payload, headers_with_token
+        end
+      end
+
       def post_file(path, file, headers = {})
         with_token(headers) do |headers_with_token|
           request.post_file path, file, headers_with_token
@@ -41,6 +47,10 @@ module Dingtalk
 
       def access_token_name
         'access_token'
+      end
+
+      def x_acs_access_token_name
+        'x-acs-dingtalk-access-token'
       end
 
       def init_attrs(*keys)
@@ -59,6 +69,7 @@ module Dingtalk
       def with_token(headers, tries = 2)
         params = headers[:params] || {}
         params[access_token_name] = access_token
+        params[x_acs_access_token_name] = access_token
         headers[:params] = params
         yield headers
       rescue Dingtalk::AccessTokenExpiredError

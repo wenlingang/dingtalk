@@ -6,6 +6,7 @@ module Dingtalk
       api_mount :auth
       api_mount :user
       api_mount :microapp
+      api_mount :workflow
 
       attr_reader :app_key, :app_secret, :agent_id
 
