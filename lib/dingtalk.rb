@@ -10,6 +10,7 @@ Dir["#{lib_path}/api/**/*.rb",  "#{lib_path}/tokens/*.rb"].each { |path| require
 
 require 'dingtalk/client/suite'
 require 'dingtalk/client/corp_app'
+require 'dingtalk/client/sns_app'
 
 Dingtalk.configure do |config|
   config.redis = Redis.new
