@@ -63,6 +63,11 @@ module Dingtalk
         # https://ding-doc.dingtalk.com/document#/isv-dev-guide/obtain-the-number-of-employees
         get 'user/get_org_user_count', params: { onlyActive: only_active }
       end
+
+      # https://open.dingtalk.com/document/orgapp/query-users-by-phone-number
+      def get_by_mobile(mobile)
+        post 'topapi/v2/user/getbymobile', { mobile: mobile }
+      end
     end
   end
 end
